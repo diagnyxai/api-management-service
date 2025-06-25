@@ -1,7 +1,30 @@
-# API Management Service Requirements
-fastapi>=0.100.0
-uvicorn>=0.20.0
-pydantic>=2.0.0
-httpx>=0.24.0
-psycopg2-binary>=2.9.9
-uuid>=1.30 
+# API Management Service - Complete Requirements
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+pydantic==2.11.7
+httpx==0.27.0
+requests==2.32.3
+python-dateutil==2.9.0
+
+# Database support
+psycopg[binary]==3.2.3
+pymysql==1.1.0
+sqlalchemy==2.0.35
+alembic==1.14.0
+
+# Security and validation
+email-validator==2.2.0
+python-jose[cryptography]==3.3.0
+
+# Environment and configuration
+python-dotenv==1.0.1
+
+# Additional utilities
+python-multipart==0.0.20
+pyyaml==6.0.2
+
+# Testing and validation
+validators==0.34.0
+
+# Python version constraint
+# python_requires>=3.11,<3.14

@@ -17,8 +17,9 @@ from pydantic import BaseModel, EmailStr
 from typing import Dict, Any, List, Optional
 import time
 import uuid
-import psycopg2
-from psycopg2.extras import RealDictCursor
+import pymysql
+import pymysql.cursors
+import uvicorn
 
 # Models
 class ApiRegistrationRequest(BaseModel):
@@ -112,12 +113,13 @@ async def health_check():
     # Database connection check
     db_status = "UP"
     try:
-        conn = psycopg2.connect(
+        conn = pymysql.connect(
             host=DB_HOST,
             port=DB_PORT,
-            dbname=DB_NAME,
+            database=DB_NAME,
             user=DB_USER,
-            password=DB_PASSWORD
+            password=DB_PASSWORD,
+            cursorclass=pymysql.cursors.DictCursor
         )
         conn.close()
     except Exception:
@@ -140,12 +142,13 @@ async def service_status():
     
     try:
         # Attempt to connect to the database
-        conn = psycopg2.connect(
+        conn = pymysql.connect(
             host=DB_HOST,
             port=DB_PORT,
-            dbname=DB_NAME,
+            database=DB_NAME,
             user=DB_USER,
-            password=DB_PASSWORD
+            password=DB_PASSWORD,
+            cursorclass=pymysql.cursors.DictCursor
         )
         cursor = conn.cursor()
         cursor.execute("SELECT 1")
@@ -320,5 +323,4 @@ async def join_trial_waitlist(entry: TrialWaitlistEntry):
     }
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8086) 
+    uvicorn.run("main:app", host="0.0.0.0", port=8087, reload=True) 
